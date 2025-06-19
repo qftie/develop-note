@@ -1,5 +1,4 @@
 # Obsidian 特定忽略项
-.obsidian/
 .obsidian/workspace.json
 .obsidian/cache/
 .obsidian/logs/
