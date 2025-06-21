@@ -1,4 +1,5 @@
 {
+  "lastOpenLanguageTab": "js",
   "releaseNote2_1_0wasShowed": true,
   "persistentOuput": false,
   "timeout": 10000,
@@ -6,7 +7,7 @@
   "wslMode": false,
   "shellWSLMode": false,
   "onlyCurrentBlock": false,
-  "nodePath": "node",
+  "nodePath": "E:/web/nodejs/node.exe",
   "nodeArgs": "",
   "jsFileExtension": "js",
   "jsInject": "",
@@ -57,7 +58,7 @@
   "csArgs": "",
   "csFileExtension": "csx",
   "csInject": "",
-  "pythonPath": "python",
+  "pythonPath": "C:/Users/13097/AppData/Local/Programs/Python/Python313/python.exe",
   "pythonArgs": "",
   "pythonEmbedPlots": true,
   "pythonFileExtension": "py",
