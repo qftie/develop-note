@@ -1,11 +1,6 @@
 # JavaScript 进阶问题列表
 
-我在我的 [Instagram](https://www.instagram.com/theavocoder) 上每天都会发布 JavaScript 的多选问题，并且同时也会在这个仓库中发布。
-
-从基础到进阶，测试你有多了解 JavaScript，刷新你的知识，或者帮助你的 coding 面试！
-:muscle: :rocket: 我每周都会在这个仓库下更新新的问题。
-
-答案在问题下方的折叠部分，点击即可展开问题。祝你好运 :heart:
+根据仓库做笔记，原仓库在此 https://github.com/lydiahallie/javascript-questions/tree/master ，此处只记录个人需要复习的部分题目。
 
 ---
 
@@ -43,6 +38,7 @@ sayHi()
 ---
 
 ###### 2. 输出是什么？
+> this 关键字指向的是它当前周围作用域（简单来说是包含箭头函数的常规函数，如果没有常规函数的话就是全局对象）
 
 ```javascript
 for (var i = 0; i < 3; i++) {
@@ -102,31 +98,6 @@ shape.perimeter()
 对于箭头函数，`this` 关键字指向的是它当前周围作用域（简单来说是包含箭头函数的常规函数，如果没有常规函数的话就是全局对象），这个行为和常规函数不同。这意味着当我们调用 `perimeter` 时，`this` 不是指向 `shape` 对象，而是它的周围作用域（在例子中是 `window`）。
 
 在 `window` 中没有 `radius` 这个属性，因此返回 `undefined`。
-
-</p>
-</details>
-
----
-
-###### 4. 输出是什么？
-
-```javascript
-+true;
-!"Lydia";
-```
-
-- A: `1` and `false`
-- B: `false` and `NaN`
-- C: `false` and `false`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：A
-
-一元操作符加号尝试将 bool 转为 number。`true` 转换为 number 的话为 `1`，`false` 为 `0`。
-
-字符串 `'Lydia'` 是一个真值，真值取反那么就返回 `false`。
 
 </p>
 </details>

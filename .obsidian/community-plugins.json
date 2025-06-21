@@ -1,4 +1,6 @@
 [
   "obsidian-git",
-  "terminal"
+  "terminal",
+  "editing-toolbar",
+  "execute-code"
 ]
