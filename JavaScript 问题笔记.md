@@ -6,7 +6,7 @@
 
 ###### 1. 输出是什么？
 
-> var 变量提升，let 没有变量提升
+> var 变量提升并初始化，let 变量提升但不会初始化造成暂时性死区
 
 ```javascript
 function sayHi() {
@@ -1358,41 +1358,6 @@ secondFunction()
 
 ---
 
-###### 103. 输出什么？
-
-```javascript
-const set = new Set()
-
-set.add(1)
-set.add("Lydia")
-set.add({ name: "Lydia" })
-
-for (let item of set) {
-  console.log(item + 2)
-}
-```
-
-- A: `3`, `NaN`, `NaN`
-- B: `3`, `7`, `NaN`
-- C: `3`, `Lydia2`, `[Object object]2`
-- D: `"12"`, `Lydia2`, `[Object object]2`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-“+”运算符不仅用于添加数值，还可以使用它来连接字符串。每当 JavaScript 引擎发现一个或多个值不是数字时，就会将数字强制为字符串。
-
-第一个是数字 1。1 + 2 返回数字 3。
-
-但是，第二个是字符串“Lydia”。 “Lydia”是一个字符串，2 是一个数字：2 被强制转换为字符串。 “Lydia”和“2”被连接起来，产生字符串“Lydia2”。
-
-`{name：“Lydia”}`是一个对象。数字和对象都不是字符串，因此将二者都字符串化。每当我们对常规对象进行字符串化时，它就会变成 `[Object object]`。与“2”串联的“ [Object object]”成为“[Object object]2”。
-
-</p>
-</details>
-
 ---
 
 ###### 104. 结果是什么？
@@ -1418,42 +1383,6 @@ Promise.resolve(5)
 </p>
 </details>
 
-###### 105. 输出什么？
-
-```javascript
-function compareMembers(person1, person2 = person) {
-  if (person1 !== person2) {
-    console.log("Not the same!")
-  } else {
-    console.log("They are the same!")
-  }
-}
-
-const person = { name: "Lydia" }
-
-compareMembers(person)
-```
-
-- A: `Not the same!`
-- B: `They are the same!`
-- C: `ReferenceError`
-- D: `SyntaxError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
-对象通过引用传递。当我们检查对象的严格相等性（===）时，我们正在比较它们的引用。
-
-我们将“person2”的默认值设置为“person”对象，并将“person”对象作为“person1”的值传递。
-
-这意味着两个值都引用内存中的同一位置，因此它们是相等的。
-
-运行“else”语句中的代码块，并记录 `They are the same!`。
-
-</p>
-</details>
 
 ---
 
@@ -1493,26 +1422,6 @@ JavaScript 解释（或取消装箱）语句。当我们使用方括号表示法
 </p>
 </details>
 
----
-
-###### 107. 输出什么？
-
-```javascript
-console.log('❤️' === '❤️')
-```
-
-- A: `true`
-- B: `false`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：A
-
-在内部，表情符号是 unicode。heat 表情符号的 unicode 是 `“U + 2764 U + FE0F”`。对于相同的表情符号，它们总是相同的，因此我们将两个相等的字符串相互比较，这将返回 true。
-
-</p>
-</details>
 
 ---
 
@@ -1545,77 +1454,10 @@ emojis.splice(1, 2, '✨')
 
 </p>
 </details>
-
----
-
-###### `<a name=20191009></a>`109. 输出什么？
-
-```javascript
-const food = ['🍕', '🍫', '🥑', '🍔']
-const info = { favoriteFood: food[0] }
-
-info.favoriteFood = '🍝'
-
-console.log(food)
-```
-
-- A: `['🍕', '🍫', '🥑', '🍔']`
-- B: `['🍝', '🍫', '🥑', '🍔']`
-- C: `['🍝', '🍕', '🍫', '🥑', '🍔']`
-- D: `ReferenceError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：A
-
-我们将 `info`对象上的 `favoriteFood`属性的值设置为披萨表情符号“🍕”的字符串。字符串是原始数据类型。在 JavaScript 中，原始数据类型通过值起作用
-
-在这种情况下，我们将 `info`对象上的 `favoriteFood`属性的值设置为等于 `food`数组中的第一个元素的值，字符串为披萨表情符号（`'🍕'`）。字符串是原始数据类型，并且通过值进行交互，我们更改 `info`对象上 `favoriteFood`属性的值。food 数组没有改变，因为 favoriteFood 的值只是该数组中第一个元素的值的复制，并且与该元素上的元素没有相同的内存引用食物 `[0]`。当我们记录食物时，它仍然是原始数组 `['🍕'，'🍫'，'🥑'，'🍔']`。
-
-</p>
-</details>
-
----
-
-###### 110. 这个函数干了什么？
-
-```javascript
-JSON.parse()
-```
-
-- A: Parses JSON to a JavaScript value
-- B: Parses a JavaScript object to JSON
-- C: Parses any JavaScript value to JSON
-- D: Parses JSON to a JavaScript object only
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：A
-
-使用 `JSON.parse()`方法，我们可以将 JSON 字符串解析为 JavaScript 值。
-
-```javascript
-// 将数字字符串化为有效的 JSON，然后将 JSON 字符串解析为 JavaScript 值：
-const jsonNumber = JSON.stringify(4) // '4'
-JSON.parse(jsonNumber) // 4
-
-// 将数组值字符串化为有效的 JSON，然后将 JSON 字符串解析为 JavaScript 值：
-const jsonArray = JSON.stringify([1, 2, 3]) // '[1, 2, 3]'
-JSON.parse(jsonArray) // [1, 2, 3]
-
-// 将对象字符串化为有效的 JSON，然后将 JSON 字符串解析为 JavaScript 值：
-const jsonArray = JSON.stringify({ name: "Lydia" }) // '{"name":"Lydia"}'
-JSON.parse(jsonArray) // { name: 'Lydia' }
-```
-
-</p>
-</details>
-
 ---
 
 ###### 111. 输出什么？
+> 惊了,带有 `let`关键字（和 `const`）的变量被提升(在块级作用域)，但是与 `var`不同，它不会被 **_初始化_**。在我们声明（初始化）它们之前，无法访问它们。这称为“暂时性死区”。
 
 ```javascript
 let name = 'Lydia'
@@ -1660,6 +1502,7 @@ getName() // Lydia
 ---
 
 ###### 112. 输出什么？
+> 通过 `yield*` 关键字，我们可以在一个 `Generator` 函数里面执行（`yield`表达式）另一个 `Generator` 函数，或可遍历的对象 (如数组).
 
 ```javascript
 function* generatorOne() {
@@ -1687,7 +1530,7 @@ console.log(two.next().value)
 
 #### 答案：C
 
-通过 `yield` 关键字，我们在 `Generator` 函数里执行 `yield`表达式。通过 `yield*` 关键字，我们可以在一个 `Generator` 函数里面执行（`yield`表达式）另一个 `Generator` 函数，或可遍历的对象 (如数组).
+通过 `yield` 关键字，我们在 `Generator` 函数里执行 `yield`表达式。**通过 `yield*` 关键字，我们可以在一个 `Generator` 函数里面执行（`yield`表达式）另一个 `Generator` 函数，或可遍历的对象 (如数组).**
 
 在函数 `generatorOne` 中，我们通过 `yield` 关键字 yield 了一个完整的数组 `['a', 'b', 'c']`。函数 `one`通过 `next`方法返回的对象的 `value` 属性的值 (`one.next().value`) 等价于数组 `['a', 'b', 'c']`.
 
@@ -1734,6 +1577,7 @@ console.log(`${(x => x)('I love')} to program`)
 ---
 
 ###### 114. 将会发生什么？
+> setInterval 的时候就已经启动定时器了,返回一个 id 赋给 alert
 
 ```javascript
 let config = {
@@ -1755,7 +1599,8 @@ config = null
 
 #### 答案：C
 
-一般情况下当我们将对象赋值为 `null`，那些对象会被进行 _垃圾回收（garbage collected）_ 因为已经没有对这些对象的引用了。然而，`setInterval`的参数是一个箭头函数（所以上下文绑定到对象 `config` 了），回调函数仍然保留着对 `config`的引用。只要存在引用，对象就不会被垃圾回收。因为没有被垃圾回收，`setInterval` 的回调每 1000ms (1s) 会被调用一次。
+setInterval 创建的定时器是由浏览器控制的，不依赖于你是否还持有它的 ID。
+所以即使你把 config 设为 null，只要没有手动清除定时器，它就会一直执行下去。
 
 </p>
 </details>
@@ -1799,6 +1644,7 @@ myMap.get(() => 'greeting')
 ---
 
 ###### 116. 输出什么？
+>只有 changeAge(person) 影响了原始对象 person，因为传入的是引用。而 changeAgeAndName() 使用的是拷贝，不会影响原始对象。
 
 ```javascript
 const person = {
@@ -1838,101 +1684,6 @@ console.log(person)
 </details>
 
 ---
-
-###### 117. 下面那个选项将会返回 `6`?
-
-```javascript
-function sumValues(x, y, z) {
-	return x + y + z;
-}
-```
-
-- A: `sumValues([...1, 2, 3])`
-- B: `sumValues([...[1, 2, 3]])`
-- C: `sumValues(...[1, 2, 3])`
-- D: `sumValues([1, 2, 3])`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-通过展开操作符 `...`，我们可以 _暂开_ 单个可迭代的元素。函数 `sumValues` function 接收三个参数：`x`, `y` 和 `z`。`...[1, 2, 3]` 的执行结果为 `1, 2, 3`，将会传递给函数 `sumValues`。
-
-</p>
-</details>
-
----
-
-###### 118. 输出什么？
-
-```javascript
-let num = 1;
-const list = ["🥳", "🤠", "🥰", "🤪"];
-
-console.log(list[(num += 1)]);
-```
-
-- A: `🤠`
-- B: `🥰`
-- C: `SyntaxError`
-- D: `ReferenceError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
-通过 `+=` 操作符，我们对值 `num` 进行加 `1` 操作。`num` 有初始值 `1`，因此 `1 + 1` 的执行结果为 `2`。数组 `list` 的第二项为 🥰，`console.log(list[2])` 输出 🥰.
-
-</p>
-</details>
-
----
-
-###### 119. 输出什么？
-
-```javascript
-const person = {
-	firstName: "Lydia",
-	lastName: "Hallie",
-	pet: {
-		name: "Mara",
-		breed: "Dutch Tulip Hound"
-	},
-	getFullName() {
-		return `${this.firstName} ${this.lastName}`;
-	}
-};
-
-console.log(person.pet?.name);
-console.log(person.pet?.family?.name);
-console.log(person.getFullName?.());
-console.log(member.getLastName?.());
-```
-
-- A: `undefined` `undefined` `undefined` `undefined`
-- B: `Mara` `undefined` `Lydia Hallie` `ReferenceError`
-- C: `Mara` `null` `Lydia Hallie` `null`
-- D: `null` `ReferenceError` `null` `ReferenceError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
-通过 ES10 或 TS3.7+[可选链操作符 `?.`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/%E5%8F%AF%E9%80%89%E9%93%BE)，我们不再需要显式检测更深层的嵌套值是否有效。如果我们尝试获取 `undefined` 或 `null` 的值 (_nullish_)，表达将会短路并返回 `undefined`.
-
-`person.pet?.name`：`person` 有一个名为 `pet` 的属性：`person.pet` 不是 nullish。它有个名为 `name` 的属性，并返回字符串 `Mara`。
-`person.pet?.family?.name`：`person` 有一个名为 `pet` 的属性：`person.pet` 不是 nullish. `pet` _并没有_ 一个名为 `family` 的属性，`person.pet.family` 是 nullish。表达式返回 `undefined`。
-`person.getFullName?.()`：`person` 有一个名为 `getFullName` 的属性：`person.getFullName()` 不是 nullish 并可以被调用，返回字符串 `Lydia Hallie`。
-`member.getLastName?.()`: 变量 `member` 不存在，因此会抛出错误 `ReferenceError`。
-
-</p>
-</details>
-
----
-
 ###### 120. 输出什么？
 
 ```javascript
