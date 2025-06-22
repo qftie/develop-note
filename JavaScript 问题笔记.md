@@ -1683,38 +1683,13 @@ console.log(person)
 </p>
 </details>
 
----
-###### 120. 输出什么？
-
-```javascript
-const groceries = ["banana", "apple", "peanuts"];
-
-if (groceries.indexOf("banana")) {
-	console.log("We have to buy bananas!");
-} else {
-	console.log(`We don't have to buy bananas!`);
-}
-```
-
-- A: We have to buy bananas!
-- B: We don't have to buy bananas
-- C: `undefined`
-- D: `1`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
-我们传递了一个状态 `groceries.indexOf("banana")` 给 if 条件语句。`groceries.indexOf("banana")` 返回 `0`，一个 falsy 的值。因为 if 条件语句的状态为 falsy，`else` 块区内的代码执行，并且 `We don't have to buy bananas!` 被输出。
-
-</p>
-</details>
 
 ---
 
 ###### 121. 输出什么？
-
+>- 只有 `setter` 没有 `getter` 时，访问属性会得到 `undefined`
+>- setter` 是用来设置值的，不是用来返回值的
+>- 要读取值需要配合 `getter` 使用
 ```javascript
 const config = {
 	languages: [],
@@ -1741,37 +1716,15 @@ console.log(config.language);
 </p>
 </details>
 
----
-
-###### 122. 输出什么？
-
-```javascript
-const name = "Lydia Hallie";
-
-console.log(!typeof name === "object");
-console.log(!typeof name === "string");
-```
-
-- A: `false` `true`
-- B: `true` `false`
-- C: `false` `false`
-- D: `true` `true`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-`typeof name` 返回 `"string"`。字符串 `"string"` 是一个 truthy 的值，因此 `!typeof name` 返回一个布尔值 `false`。`false === "object"` 和 `false === "string"` 都返回 `false`。
-
-（如果我们想检测一个值的类型，我们应该用 `!==` 而不是 `!typeof`）
-
-</p>
-</details>
 
 ---
 
 ###### 123. 输出什么？
+>柯里化函数: 
+	- add 是一个函数，接收参数 x
+	- 返回一个新的函数，接收参数 y
+	- 再返回另一个函数，接收参数 z
+	- 最后一层函数执行时，打印并返回 x + y + z
 
 ```javascript
 const add = x => y => z => {
@@ -1800,7 +1753,7 @@ add(4)(5)(6);
 ---
 
 ###### 124. 输出什么？
-
+>await 自动 .then() 出 Promise 的结果；for await...of 自动调用异步可迭代对象 .next() 并 await 每个 yield 出来的 Promise。
 ```javascript
 async function* range(start, end) {
 	for (let i = start; i <= end; i++) {
@@ -1858,47 +1811,16 @@ myFunc(1, 2, 3);
 </p>
 </details>
 
----
 
-###### 126. 输出什么？
-
-```javascript
-function getFine(speed, amount) {
-  const formattedSpeed = new Intl.NumberFormat(
-    'en-US',
-    { style: 'unit', unit: 'mile-per-hour' }
-  ).format(speed)
-
-  const formattedAmount = new Intl.NumberFormat(
-    'en-US',
-    { style: 'currency', currency: 'USD' }
-  ).format(amount)
-
-  return `The driver drove ${formattedSpeed} and has to pay ${formattedAmount}`
-}
-
-console.log(getFine(130, 300))
-```
-
-- A: The driver drove 130 and has to pay 300
-- B: The driver drove 130 mph and has to pay \$300.00
-- C: The driver drove undefined and has to pay undefined
-- D: The driver drove 130.00 and has to pay 300.00
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
-通过方法 `Intl.NumberFormat`，我们可以格式化任意区域的数字值。我们对数字值 `130` 进行 `mile-per-hour` 作为 `unit` 的 `en-US` 区域 格式化，结果为 `130 mph`。对数字值 `300` 进行 `USD` 作为 `currency` 的 `en-US` 区域格式化，结果为 `$300.00`.
-
-</p>
-</details>
 
 ---
 
 ###### 127. 输出什么？
-
+> 解构赋值是直接赋值给变量!! 理解如下语法:
+```javascript
+let {prop: varName = default, ...rest} = object
+```
+这表示属性 `prop` 会被赋值给变量 `varName`，如果没有这个属性的话，就会使用默认值 `default`。没有对应映射的对象属性会被复制到 `rest` 对象。
 ```javascript
 const spookyItems = ["👻", "🎃", "🕸"];
 ({ item: spookyItems[3] } = { item: "💀" });
@@ -1925,6 +1847,7 @@ console.log(spookyItems);
 
 ###### 128. 输出什么？
 
+>`Number.isNaN(value)` 仅当 `value` 是 `NaN` 类型时 才会返回 `true` ,不会强制转换类型（更准确）
 ```javascript
 const name = "Lydia Hallie";
 const age = 21;
@@ -1953,71 +1876,8 @@ console.log(isNaN(age));
 </p>
 </details>
 
----
-
-###### 129. 输出什么？
-
-```javascript
-const randomValue = 21;
-
-function getInfo() {
-	console.log(typeof randomValue);
-	const randomValue = "Lydia Hallie";
-}
-
-getInfo();
-```
-
-- A: `"number"`
-- B: `"string"`
-- C: `undefined`
-- D: `ReferenceError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：D
-
-通过 `const` 关键字声明的变量在被初始化之前不可被引用：这被称之为 _暂时性死区_。在函数 `getInfo` 中，变量 `randomValue` 声明在 `getInfo` 的作用域的此法环境中。在想要对 `typeof randomValue` 进行 log 之前，变量 `randomValue` 仍未被初始化：错误 `ReferenceError` 被抛出！JS 引擎并不会根据作用域链网上寻找该变量，因为我们已经在 `getInfo` 函数中声明了 `randomValue` 变量。
-
-</p>
-</details>
 
 ---
-
-###### 130. 输出什么？
-
-```javascript
-const myPromise = Promise.resolve("Woah some cool data");
-
-(async () => {
-	try {
-		console.log(await myPromise);
-	} catch {
-		throw new Error(`Oops didn't work`);
-	} finally {
-		console.log("Oh finally!");
-	}
-})();
-```
-
-- A: `Woah some cool data`
-- B: `Oh finally!`
-- C: `Woah some cool data` `Oh finally!`
-- D: `Oops didn't work` `Oh finally!`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-在 `try` 块区，我们打印 `myPromise` 变量的 awaited 值：`"Woah some cool data"`。因为 `try` 块区没有错误抛出，`catch` 块区的代码并不执行。`finally` 块区的代码 _总是_ 执行，`"Oh finally!"` 被输出。
-
-</p>
-</details>
-
----
-
 ###### 131. 输出什么？
 
 ```javascript
@@ -2883,34 +2743,3 @@ console.log(member)
 </p>
 </details>
 
----
-
-###### 155. 输出什么？
-
-```javascript
-let randomValue = { name: "Lydia" }
-randomValue = 23
-
-if (!typeof randomValue === "string") {
-	console.log("It's not a string!")
-} else {
-	console.log("Yay it's a string!")
-}
-```
-
-- A: `It's not a string!`
-- B: `Yay it's a string!`
-- C: `TypeError`
-- D: `undefined`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
- `if` 语句的条件判断 `!typeof randomValue` 的值是否等于 `"string"`。`!` 操作符将这个值转化为一个布尔值。如果值是 truthy 的话，返回值会是 `false`，如果值是 falsy，返回值会是 `true`。在这里，`typeof randomValue` 的返回值是一个 truthy 值 `"number"`，意味着 `!typeof randomValue` 的值是一个布尔值 `false`。
-
- `!typeof randomValue === "string"` 总是返回 false，因为我们实际上是在执行 `false === "string"`。因为条件返回的是 `false`，所以 `else` 语句中的代码块会被运行，因此打印 `Yay it's a string!`。
-
-</p>
-</details>
