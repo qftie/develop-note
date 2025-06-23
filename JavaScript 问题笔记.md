@@ -1058,7 +1058,7 @@ console.log(name);
 
 ---
 
-###### `<a name=20190726></a>`79. 输出什么？
+###### 79. 输出什么？
 
 ```javascript
 const myLifeSummedUp = ["☕", "💻", "🍷", "🍫"]
@@ -1903,7 +1903,7 @@ console.log(emojis.flat(1));
 
 ---
 
-###### `<a name=20191224></a>`132. 输出什么？
+###### 132. 输出什么？
 
 ```javascript
 class Counter {
@@ -1952,6 +1952,7 @@ console.log(counterOne.count);
 ---
 
 ###### 133. 输出什么？
+> 先微任务（Promise）再宏任务（setTimeout）
 
 ```javascript
 const myPromise = Promise.resolve(Promise.resolve("Promise!"));
@@ -1999,7 +2000,7 @@ promise 和 timeout 都是异步操作，函数继续执行当 JS 引擎忙于�
 ---
 
 ###### 134. 我们怎样才能在 `index.js` 中调用 `sum.js?` 中的 `sum`？
-
+> 如果我们将所有东西 * 作为一个对象导入，那么 default 属性正是默认的导出
 ```javascript
 // sum.js
 export default function sum(x) {
@@ -2082,7 +2083,7 @@ person.name;
 
 使用 Proxy 对象，我们可以给一个对象添加自定义行为。在这个 case，我们传递一个包含以下属性的对象 `handler` : `set` and `get`。每当我们 _设置_ 属性值时 `set` 被调用，每当我们 _获取_ 时 `get` 被调用。
 
-第一个参数是一个空对象 `{}`，作为 `person` 的值。对于这个对象，自定义行为被定义在对象 `handler`。如果我们向对象 `person` 添加属性，`set` 将被调用。如果我们获取 `person` 的属性，`get` 将被调用。
+**第一个参数是一个空对象 `{}`，作为 `person` 的值。对于这个对象，自定义行为被定义在对象 `handler`。如果我们向对象 `person` 添加属性，`set` 将被调用。如果我们获取 `person` 的属性，`get` 将被调用。**
 
 首先，我们向 proxy 对象 (`person.name = "Lydia"`) 添加一个属性 `name`。`set` 被调用并输出 `"Added a new property!"`。
 
@@ -2098,7 +2099,7 @@ person.name;
 ```javascript
 const person = { name: "Lydia Hallie" };
 
-Object.seal(person);
+Object.seal(person); // 封印对象！属性不能增删，但可以改
 ```
 
 - A: `person.name = "Evan Bacon"`
@@ -2188,7 +2189,7 @@ myFunc(3);
 
 ```javascript
 class Counter {
-  #number = 10
+  #number = 10 // ES2020 之后的私有变量定义方式
 
   increment() {
     this.#number++
@@ -2223,6 +2224,8 @@ console.log(counter.#number)
 ---
 
 ###### 140. 选择哪一个？
+>`yield* expression` 会把当前生成器的控制权交给另一个生成器或可迭代对象。
+>在这个例子中，`yield* getMembers(...)` 把 `getTeams` 的产出权交给 `getMembers`，让其逐个产出成员名。
 
 ```javascript
 const teams = [
@@ -2266,87 +2269,6 @@ obj.next(); // { value: "Lisa", done: false }
 
 ---
 
-###### 141. 输出什么？
-
-```javascript
-const person = {
-	name: "Lydia Hallie",
-	hobbies: ["coding"]
-};
-
-function addHobby(hobby, hobbies = person.hobbies) {
-	hobbies.push(hobby);
-	return hobbies;
-}
-
-addHobby("running", []);
-addHobby("dancing");
-addHobby("baking", person.hobbies);
-
-console.log(person.hobbies);
-```
-
-- A: `["coding"]`
-- B: `["coding", "dancing"]`
-- C: `["coding", "dancing", "baking"]`
-- D: `["coding", "running", "dancing", "baking"]`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-函数 `addHobby` 接受两个参数，`hobby` 和有着对象 `person` 中数组 `hobbies` 默认值的 `hobbies`。
-
-首相，我们调用函数 `addHobby`，并给 `hobby` 传递 `"running"` 以及给 `hobbies` 传递一个空数组。因为我们给 `hobbies` 传递了空数组，`"running"` 被添加到这个空数组。
-
-然后，我们调用函数 `addHobby`，并给 `hobby` 传递 `"dancing"`。我们不向 `hobbies` 传递值，因此它获取其默认值 —— 对象 `person` 的 属性 `hobbies`。我们向数组 `person.hobbies` push `dancing`。
-
-最后，我们调用函数 `addHobby`，并向 `hobby` 传递 值 `"baking"`，并且向 `hobbies` 传递 `person.hobbies`。我们向数组 `person.hobbies` push `dancing`。
-
-pushing `dancing` 和 `baking` 之后，`person.hobbies` 的值为 `["coding", "dancing", "baking"]`
-
-</p>
-</details>
-
----
-
-###### 142. 输出什么？
-
-```javascript
-class Bird {
-	constructor() {
-		console.log("I'm a bird. 🦢");
-	}
-}
-
-class Flamingo extends Bird {
-	constructor() {
-		console.log("I'm pink. 🌸");
-		super();
-	}
-}
-
-const pet = new Flamingo();
-```
-
-- A: `I'm pink. 🌸`
-- B: `I'm pink. 🌸` `I'm a bird. 🦢`
-- C: `I'm a bird. 🦢` `I'm pink. 🌸`
-- D: Nothing, we didn't call any method
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
-我们创建了类 `Flamingo` 的实例 `pet`。当我们实例化这个实例，`Flamingo` 中的 `constructor` 被调用。首相，输出 `"I'm pink. 🌸"`，之后我们调用 `super()`。`super()` 调用父类的构造函数，`Bird`。`Bird` 的构造函数被调用，并输出 `"I'm a bird. 🦢"`。
-
-</p>
-</details>
-
----
-
 ###### 143. 哪一个选项会导致报错？
 
 ```javascript
@@ -2355,7 +2277,7 @@ const emojis = ["🎄", "🎅🏼", "🎁", "⭐"];
 /* 1 */ emojis.push("🦌");
 /* 2 */ emojis.splice(0, 2);
 /* 3 */ emojis = [...emojis, "🥂"];
-/* 4 */ emojis.length = 0;
+/* 4 */ emojis.length = 0; // 清空数组，合法
 ```
 
 - A: 1
@@ -2376,6 +2298,7 @@ const emojis = ["🎄", "🎅🏼", "🎁", "⭐"];
 ---
 
 ###### 144. 我们需要向对象 `person` 添加什么，以致执行 `[...person]` 时获得形如 `["Lydia Hallie", 21]` 的输出？
+> 重新定义迭代器，每次 next 时，交给 Object.values() 接管
 
 ```javascript
 const person = {
@@ -2401,183 +2324,13 @@ const person = {
 </p>
 </details>
 
----
 
-###### 145. 输出什么？
 
-```javascript
-let count = 0;
-const nums = [0, 1, 2, 3];
-
-nums.forEach(num => {
-	if (num) count += 1
-})
-
-console.log(count)
-```
-
-- A: 1
-- B: 2
-- C: 3
-- D: 4
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-在 `forEach` 循环内部的 `if` 会判断 `num` 的值是 truthy 或者是 falsy。因为 `nums` 数组的第一个数字是 `0`，一个 falsy 值，`if` 语句代码块不会被执行。`count` 仅仅在 `nums` 数组的其他 3 个数字 `1`，`2`，`3` 时加 1。因为 `count` 执行了 3 次加 `1` 运算，所以 `count` 的值为 `3`。
-
-</p>
-</details>
-
----
-
-###### 146. 输出是什么？
-
-```javascript
-function getFruit(fruits) {
-	console.log(fruits?.[1]?.[1])
-}
-
-getFruit([['🍊', '🍌'], ['🍍']])
-getFruit()
-getFruit([['🍍'], ['🍊', '🍌']])
-```
-
-- A: `null`, `undefined`, 🍌
-- B: `[]`, `null`, 🍌
-- C: `[]`, `[]`, 🍌
-- D: `undefined`, `undefined`, 🍌
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：D
-
-`?` 允许我们去选择性地访问对象内部更深层的嵌套属性。我们尝试打印 `fruits` 数组索引值为 `1` 的子数组内部的索引值为 `1` 的元素。如果在 `fruits` 数组索引值 为 `1` 的位置不存在元素，会直接返回 `undefined`。如果 `fruits` 数组在索引值为 `1` 的位置存在元素，但是子数组在索引值为 `1` 的位置不存在元素，也会返回 `undefined`。
-
-首先，我们尝试打印 `[['🍊', '🍌'], ['🍍']]` 的子数组 `['🍍']` 的第 2 个元素。这个子数组只包含一个元素，也就意味着在索引值为 `1` 的位置不存在元素，所以返回的是 `undefined`。
-
-其次，我们在没有传入任何参数调用了 `getFruits` 函数，也就意味着形参 `fruits` 的默认值为 `undefined`。因为我们选择性地链接了 `fruits` 在索引值为 `1` 的元素，因为在索引值为 `1` 的位置不存在元素，因此返回的是 `undefined`。
-
-最后，我们尝试打印 `['🍍'], ['🍊', '🍌']` 的子数组 `['🍊', '🍌']` 的第 2 个元素。子数组索引值为 `1`的位置为 `🍌`，因此它被打印出了。
-
-</p>
-</details>
-
----
-
-###### 147. 输出什么？
-
-```javascript
-class Calc {
-	constructor() {
-		this.count = 0 
-	}
-
-	increase() {
-		this.count++
-	}
-}
-
-const calc = new Calc()
-new Calc().increase()
-
-console.log(calc.count)
-```
-
-- A: `0`
-- B: `1`
-- C: `undefined`
-- D: `ReferenceError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：A
-
-我们设置 `calc` 变量为 `Calc` 类的一个新实例。然后，我们初始化一个 `Calc` 的新实例，而且调用了这个实例的 `increase` 方法。因为 count 属性是在 `Calc` class 的 constructor 内部的，所以 count 属性不会在 `Calc` 的原型链上共享出去。这就意味着 calc 实例的 count 值不会被更新，count 仍然是 `0`。
-
-</p>
-</details>
-
----
-
-###### 148. 输出什么？
-
-```javascript
-const user = {
-	email: "e@mail.com",
-	password: "12345"
-}
-
-const updateUser = ({ email, password }) => {
-	if (email) {
-		Object.assign(user, { email })
-	}
-
-	if (password) {
-		user.password = password
-	}
-
-	return user
-}
-
-const updatedUser = updateUser({ email: "new@email.com" })
-
-console.log(updatedUser === user)
-```
-
-- A: `false`
-- B: `true`
-- C: `TypeError`
-- D: `ReferenceError`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：B
-
- `updateUser` 函数更新 user 的 `email` 和 `password` 属性的值，如果它们的值传入函数，函数返回的就是 `user` 对象。`updateUser` 函数的返回值是 `user` 对象，意味着 updatedUser 的值与 `user` 指向的是同一个 `user` 对象。`updatedUser === user` 为 `true`.
-
-</p>
-</details>
-
----
-
-###### 149. 输出什么？
-
-```javascript
-const fruit = ['🍌', '🍊', '🍎']
-
-fruit.slice(0, 1)
-fruit.splice(0, 1)
-fruit.unshift('🍇')
-
-console.log(fruit)
-```
-
-- A: `['🍌', '🍊', '🍎']`
-- B: `['🍊', '🍎']`
-- C: `['🍇', '🍊', '🍎']`
-- D: `['🍇', '🍌', '🍊', '🍎']`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
-首先，我们在 fruit 数组上调用 `slice` 方法。slice 方法不会修改原始数组，但是会返回从数组切片下来的值：香蕉 emoji。
-其次，我们在 fruit 数组上调用 `splice` 方法。splice 方法会修改原始数组，也就意味着 fruit 数组此时为 `['🍊', '🍎']`。
-最后，我们在 fruit 数组上调用 `unshift` 方法，通过添加一个值的方式改变了原始数组，添加的是'🍇'，它成为了数组的第一个元素。现在 fruit 数组的组成为 `['🍇', '🍊', '🍎']`。
-
-</p>
-</details>
 
 ---
 
 ###### 150. 输出什么？
+> 抽象，对象作为 key 会被转成 string
 
 ```javascript
 const animals = {};
@@ -2614,6 +2367,7 @@ console.log(animals[dog])
 ---
 
 ###### 151. 输出什么？
+> 箭头函数中的 this 指向它“定义时”的外层作用域，而不是它所在对象本身。
 
 ```javascript
 const user = {
@@ -2645,6 +2399,7 @@ console.log(user.email)
 ---
 
 ###### 152. 输出什么？
+> 易错题，没加易错选项，注意 all 里面有一个报错就会直接返回错误，reject 之后会直接被 catch
 
 ```javascript
 const promise1 = Promise.resolve('First')
@@ -2681,6 +2436,7 @@ runPromises()
 ---
 
 ###### 153. 哪个作为 `method`的值可以打印 `{ name: "Lydia", age: 22 }`?
+>Object.fromEntries() 是 Object 中用于将 `[key, value]` 对的列表转换为对象的方法。
 
 ```javascript
 const keys = ["name", "age"]
@@ -2709,37 +2465,4 @@ Object[method](keys.map((_, i) => {
 </p>
 </details>
 
----
-
-###### 154. 输出什么？
-
-```javascript
-const createMember = ({ email, address = {}}) => {
-	const validEmail = /.+\@.+\..+/.test(email)
-	if (!validEmail) throw new Error("Valid email pls")
-
-	return {
-		email,
-		address: address ? address : null
-	}
-}
-
-const member = createMember({ email: "my@email.com" })
-console.log(member)
-```
-
-- A: `{ email: "my@email.com", address: null }`
-- B: `{ email: "my@email.com" }`
-- C: `{ email: "my@email.com", address: {} }`
-- D: `{ email: "my@email.com", address: undefined }`
-
-<details><summary><b>答案</b></summary>
-<p>
-
-#### 答案：C
-
- `address` 的默认值是一个空对象 `{}`。当我们设置 `member` 变量为 `createMember` 函数返回的对象，我们没有为 address 参数传值，意味着 address 的值为默认的空对象 `{}`。一个空对象是一个 truthy 值，意味着 `address ? address : null` 条件会返回 `true`。address 的值为空对象 `{}`。
-
-</p>
-</details>
 
